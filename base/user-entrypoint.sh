@@ -17,18 +17,22 @@ if ! id -u $GASPAR_USER > /dev/null 2>&1; then
 
     # Create Groups
     for gid in $GASPAR_SUPG; do
-        GROUP_NAME=$(ldapsearch -LLL -H ldap://scoldap.epfl.ch -x -b ou=groups,o=epfl,c=ch \(gidNumber=$gid\) cn | egrep ^cn | awk '{ print $2 }')
-        # ensure group name ≤ 32 chars (prefix + hash if needed)
+        GROUP_NAME=$(ldapsearch -LLL -H ldap://scoldap.epfl.ch -x \
+            -b ou=groups,o=epfl,c=ch "(gidNumber=$gid)" cn | awk '/^cn:/ {print $2}')
+
+        # If the name is longer than 32 chars, shorten deterministically
         if [ ${#GROUP_NAME} -gt 32 ]; then
-            GRPNM=$(echo "$GROUP_NAME" | cut -c1-20)$(echo "$GROUP_NAME" | md5sum | cut -c1-8)
+            # Keep first 24 chars, append 8-char hash to avoid collisions
+            GRPNM=$(echo "$GROUP_NAME" | cut -c1-29)
         else
             GRPNM=$GROUP_NAME
         fi
-        if ! getent group $GROUP_NAME > /dev/null 2>&1; then
-            GRPNM=$(ldapsearch -LLL -H ldap://scoldap.epfl.ch -x -b ou=groups,o=epfl,c=ch \(gidNumber=$gid\) cn | egrep ^cn | awk '{ print $2 }')
-            groupadd -g $gid $GRPNM
+
+        if ! getent group "$GRPNM" > /dev/null 2>&1; then
+            groupadd -g "$gid" "$GRPNM"
         else
-            groupmod -g $gid $GRPNM
+            groupmod -g "$gid" "$GRPNM"
+
         fi
     done
 
