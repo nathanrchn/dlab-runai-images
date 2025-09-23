@@ -32,6 +32,7 @@ if ! id -u $GASPAR_USER > /dev/null 2>&1; then
             groupadd -g "$gid" "$GRPNM"
         else
             groupmod -g "$gid" "$GRPNM"
+
         fi
     done
 
