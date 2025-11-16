@@ -31,6 +31,6 @@ RUN apt-get update && \
 	curl -fsSL https://developer.download.nvidia.com/devtools/repos/ubuntu2204/amd64/nvidia.pub | gpg --dearmor -o /usr/share/keyrings/nvidia-devtools.gpg && \
 	echo "deb [signed-by=/usr/share/keyrings/nvidia-devtools.gpg] https://developer.download.nvidia.com/devtools/repos/ubuntu2204/amd64/ /" > /etc/apt/sources.list.d/nvidia-devtools.list && \
 	apt-get update && \
-	apt-get install -y nsight-systems-cli && \
+	apt-get install -y --no-install-recommends -o APT::Keep-Downloaded-Packages=false nsight-systems-cli && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
