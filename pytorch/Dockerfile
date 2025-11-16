@@ -27,9 +27,9 @@ RUN curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
 
 # install nsight-systems-cli (nsys)
 RUN apt-get update && \
-	apt-get install -y --no-install-recommends gnupg && \
-	echo "deb http://developer.download.nvidia.com/devtools/repos/ubuntu$(. /etc/lsb-release; echo "$DISTRIB_RELEASE" | tr -d .)/$(dpkg --print-architecture) /" | tee /etc/apt/sources.list.d/nvidia-devtools.list && \
-	apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub && \
+	apt-get install -y --no-install-recommends curl ca-certificates gpg && \
+	curl -fsSL https://developer.download.nvidia.com/devtools/repos/ubuntu2204/amd64/nvidia.pub | gpg --dearmor -o /usr/share/keyrings/nvidia-devtools.gpg && \
+	echo "deb [signed-by=/usr/share/keyrings/nvidia-devtools.gpg] https://developer.download.nvidia.com/devtools/repos/ubuntu2204/amd64/ /" > /etc/apt/sources.list.d/nvidia-devtools.list && \
 	apt-get update && \
 	apt-get install -y nsight-systems-cli && \
 	apt-get clean && \
