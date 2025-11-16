@@ -23,10 +23,14 @@ RUN curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
 	&& echo "deb https://ngrok-agent.s3.amazonaws.com buster main" \
 	| sudo tee /etc/apt/sources.list.d/ngrok.list \
 	&& sudo apt update \
-	&& sudo apt install ngrok
+	&& sudo apt install ngrok \
+	&& sudo apt-get clean \
+	&& sudo rm -rf /var/lib/apt/lists/*
 
 # install nsight-systems-cli (nsys)
-RUN apt-get update && \
+RUN apt-get clean && \
+	rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* && \
+	apt-get update && \
 	apt-get install -y --no-install-recommends curl ca-certificates gpg && \
 	curl -fsSL https://developer.download.nvidia.com/devtools/repos/ubuntu2204/amd64/nvidia.pub | gpg --dearmor -o /usr/share/keyrings/nvidia-devtools.gpg && \
 	echo "deb [signed-by=/usr/share/keyrings/nvidia-devtools.gpg] https://developer.download.nvidia.com/devtools/repos/ubuntu2204/amd64/ /" > /etc/apt/sources.list.d/nvidia-devtools.list && \
