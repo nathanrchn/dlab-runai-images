@@ -78,11 +78,7 @@ jobs:
         run: |
           sudo swapoff -a
           sudo rm -f /swapfile
-          sudo apt clean
-          IMAGES=$(docker image ls -aq)
-          if [ -n "$IMAGES" ]; then
-            docker rmi $IMAGES
-          fi
+          sudo apt-get clean
           docker system prune -a -f --volumes
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /opt/ghc
