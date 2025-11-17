@@ -53,6 +53,7 @@ jobs:
           if [ -n "$IMAGES" ]; then
             docker rmi $IMAGES
           fi
+          docker system prune -a -f --volumes
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /opt/ghc
           sudo rm -rf "/usr/local/share/boost"
