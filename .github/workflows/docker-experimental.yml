@@ -15,6 +15,10 @@ on:
     # Sequence of patterns matched against refs/tags
     tags:        
       - v*
+    # Only trigger when experimental Dockerfile or related files change
+    paths:
+      - 'experimental/**'
+      - '.github/workflows/docker-experimental.yml'
 
 # There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:
