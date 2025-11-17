@@ -86,7 +86,7 @@ If you need to revert the installation:
 
 ## Available Images
 
-There are currently two images available:
+There are currently three images available:
 - **base**: `ghcr.io/jkminder/dlab-runai-images/base:master`
     - Logs you in with your GASPAR UID/GUID and sets the correct permissions
     - Installs basic packages (conda, htop, vim, ssh, etc.). 
@@ -96,6 +96,9 @@ There are currently two images available:
     - Automatically generates a `.bashrc` file in your $HOME if you don't have one.
 - **pytorch**: `ghcr.io/jkminder/dlab-runai-images/pytorch:master` 
     - Creates `default` conda environment with pytorch and other default ML python libraries installed. See `pytorch/environment.yml` and `pytorch/requirements.txt` for an exhaustive list.
+- **pytorch-nsys**: `ghcr.io/jkminder/dlab-runai-images/pytorch-nsys:master`
+    - Built on top of the pytorch image
+    - Includes nsight-systems-cli (nsys) for profiling CUDA applications
 
 ## How to submit jobs
 (This section assumes you have installed runai using the install_runai.sh script. If you installed runai manually, be sure to replace `runai` with the correct binary.)
